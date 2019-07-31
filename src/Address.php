@@ -5,6 +5,7 @@ namespace kornrunner\Ethereum;
 use InvalidArgumentException;
 use kornrunner\Keccak;
 use Mdanter\Ecc\EccFactory;
+use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
 use Mdanter\Ecc\Serializer\PublicKey\DerPublicKeySerializer;
 
 class Address {
@@ -41,5 +42,8 @@ class Address {
         return substr($hash, -40);
     }
 
+    /**
+     * @var PrivateKeyInterface
+     */
     private $privateKey;
 }
