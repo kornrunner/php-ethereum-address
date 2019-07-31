@@ -1,6 +1,6 @@
 build: false
 shallow_clone: true
-clone_folder: c:\php-secp256k1
+clone_folder: c:\php-ethereum-address
 platform: x64
 
 cache:
@@ -36,7 +36,7 @@ install:
   - IF NOT EXIST php-installed.txt appveyor DownloadFile https://getcomposer.org/composer.phar
   - IF NOT EXIST php-installed.txt echo @php %%~dp0composer.phar %%* > composer.bat
   - IF NOT EXIST php-installed.txt type nul >> php-installed.txt
-  - cd c:\php-secp256k1
+  - cd c:\php-ethereum-address
 
 test_script:
   - composer install
