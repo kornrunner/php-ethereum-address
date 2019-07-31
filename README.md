@@ -1,4 +1,5 @@
-# php-ethereum-address
+# php-ethereum-address [![Build Status](https://travis-ci.org/kornrunner/php-ethereum-address.svg?branch=master)](https://travis-ci.org/kornrunner/php-ethereum-address) [![Coverage Status](https://coveralls.io/repos/github/kornrunner/php-ethereum-address/badge.svg?branch=master)](https://coveralls.io/github/kornrunner/php-ethereum-address?branch=master) [![Build status](https://ci.appveyor.com/api/projects/status/rkuhlaiq8jckvo2e?svg=true)](https://ci.appveyor.com/project/kornrunner/php-ethereum-address)
+
 
 ```lang=bash
 $ composer require kornrunner/ethereum-address
