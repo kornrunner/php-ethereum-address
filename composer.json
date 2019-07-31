@@ -1,0 +1,30 @@
+{
+    "name": "kornrunner/ethereum-address",
+    "description": "Pure PHP Ethereum Address Generator / Validator",
+    "type": "library",
+    "require": {
+        "php": ">=7.1",
+        "kornrunner/keccak": "^1.0",
+        "mdanter/ecc": "^0.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    },
+    "autoload": {
+        "psr-4": {
+            "kornrunner\\Ethereum\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "kornrunner\\Ethereum\\": "test"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Boris Momčilović",
+            "email": "boris.momcilovic@gmail.com"
+        }
+    ]
+}
