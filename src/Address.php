@@ -28,7 +28,7 @@ class Address {
     }
 
     public function getPrivateKey(): string {
-        return str_pad(gmp_strval($this->privateKey->getSecret(), 16), 64, '0');
+        return str_pad(gmp_strval($this->privateKey->getSecret(), 16), 64, '0', STR_PAD_LEFT);
     }
 
     public function getPublicKey(): string {
