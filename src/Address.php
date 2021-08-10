@@ -18,8 +18,8 @@ class Address {
             if (!ctype_xdigit($privateKey)) {
                 throw new InvalidArgumentException('Private key must be a hexadecimal number');
             }
-            if (strlen($privateKey) != 64) {
-                throw new InvalidArgumentException('Private key should be exactly 64 chars long');
+            if (strlen($privateKey) != self::SIZE) {
+                throw new InvalidArgumentException(sprintf('Private key should be exactly %d chars long', self::SIZE));
             }
 
             $key = gmp_init($privateKey, 16);
@@ -28,7 +28,7 @@ class Address {
     }
 
     public function getPrivateKey(): string {
-        return str_pad(gmp_strval($this->privateKey->getSecret(), 16), 64, '0', STR_PAD_LEFT);
+        return str_pad(gmp_strval($this->privateKey->getSecret(), 16), self::SIZE, '0', STR_PAD_LEFT);
     }
 
     public function getPublicKey(): string {
@@ -46,4 +46,6 @@ class Address {
      * @var PrivateKeyInterface
      */
     private $privateKey;
+
+    private const SIZE = 64;
 }
