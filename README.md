@@ -1,4 +1,4 @@
-# php-ethereum-address [![Coverage Status](https://coveralls.io/repos/github/kornrunner/php-ethereum-address/badge.svg?branch=master)](https://coveralls.io/github/kornrunner/php-ethereum-address?branch=master) [![Build status](https://ci.appveyor.com/api/projects/status/rkuhlaiq8jckvo2e?svg=true)](https://ci.appveyor.com/project/kornrunner/php-ethereum-address) [![Latest Stable Version](https://poser.pugx.org/kornrunner/ethereum-address/v/stable)](https://packagist.org/packages/kornrunner/ethereum-address)
+# php-ethereum-address [![Tests](https://github.com/kornrunner/php-ethereum-address/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/kornrunner/php-ethereum-address/actions/workflows/tests.yml) [![Coverage Status](https://coveralls.io/repos/github/kornrunner/php-ethereum-address/badge.svg?branch=master)](https://coveralls.io/github/kornrunner/php-ethereum-address?branch=master) [![Latest Stable Version](https://poser.pugx.org/kornrunner/ethereum-address/v/stable)](https://packagist.org/packages/kornrunner/ethereum-address)
 
 
 ```lang=bash
