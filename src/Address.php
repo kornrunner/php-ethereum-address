@@ -51,17 +51,17 @@ class Address
         return $any;
     }
 
-    public function getPrivateKey(): string
-    {
-        return static::addPrefix(str_pad(gmp_strval($this->privateKey->getSecret(), 16), self::SIZE, '0', STR_PAD_LEFT), $this->prefix);
-    }
-
     public static function addPrefix(string $any, string $prefix)
     {
         if (substr($any, 0, strlen($prefix)) !== $prefix) {
             return $prefix . $any;
         }
         return $any;
+    }
+
+    public function getPrivateKey(): string
+    {
+        return static::addPrefix(str_pad(gmp_strval($this->privateKey->getSecret(), 16), self::SIZE, '0', STR_PAD_LEFT), $this->prefix);
     }
 
     public function get(): string
