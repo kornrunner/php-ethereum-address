@@ -21,7 +21,7 @@ class Address
     public function __construct(string $privateKey = '', string $prefix = '')
     {
         $this->setPrefix($prefix);
-        $privateKey = $this->removePrefix($privateKey);
+        $privateKey = static::removePrefix($privateKey, $this->prefix);
         $generator = EccFactory::getSecgCurves()->generator256k1();
         if (empty ($privateKey)) {
             $this->privateKey = $generator->createPrivateKey();
@@ -43,29 +43,37 @@ class Address
         $this->prefix = $prefix;
     }
 
-    public function removePrefix(string $any)
+    public static function removePrefix(string $any, string $prefix)
     {
-        if (substr($any, 0, strlen($this->prefix)) === $this->prefix) {
-            return substr($any, strlen($this->prefix));
+        if (substr($any, 0, strlen($prefix)) === $prefix) {
+            return substr($any, strlen($prefix));
         }
         return $any;
     }
 
     public function getPrivateKey(): string
     {
-        return $this->prefix . str_pad(gmp_strval($this->privateKey->getSecret(), 16), self::SIZE, '0', STR_PAD_LEFT);
+        return static::addPrefix(str_pad(gmp_strval($this->privateKey->getSecret(), 16), self::SIZE, '0', STR_PAD_LEFT), $this->prefix);
+    }
+
+    public static function addPrefix(string $any, string $prefix)
+    {
+        if (substr($any, 0, strlen($prefix)) !== $prefix) {
+            return $prefix . $any;
+        }
+        return $any;
     }
 
     public function get(): string
     {
-        $hash = Keccak::hash(hex2bin($this->removePrefix($this->getPublicKey())), 256);
-        return $this->prefix . substr($hash, -40);
+        $hash = Keccak::hash(hex2bin(static::removePrefix($this->getPublicKey()), $this->prefix), 256);
+        return static::addPrefix(substr($hash, -40), $this->prefix);
     }
 
     public function getPublicKey(): string
     {
         $publicKey = $this->privateKey->getPublicKey();
         $publicKeySerializer = new DerPublicKeySerializer(EccFactory::getAdapter());
-        return $this->prefix . substr($publicKeySerializer->getUncompressedKey($publicKey), 2);
+        return static::addPrefix(substr($publicKeySerializer->getUncompressedKey($publicKey), 2), $this->prefix);
     }
 }
