@@ -1,16 +1,27 @@
 <?php declare(strict_types=1);
 
-namespace kornrunner\Ethereum;
+namespace Drupal\blockchain_credentials\Address;
 
 use InvalidArgumentException;
 use kornrunner\Keccak;
-use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
+use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Serializer\PublicKey\DerPublicKeySerializer;
 
-class Address {
+class Address
+{
 
-    public function __construct(string $privateKey = '') {
+    private const SIZE = 64;
+    protected $prefix = '';
+    /**
+     * @var PrivateKeyInterface
+     */
+    private $privateKey;
+
+    public function __construct(string $privateKey = '', string $prefix = '')
+    {
+        $this->setPrefix($prefix);
+        $privateKey = static::removePrefix($privateKey, $this->prefix);
         $generator = EccFactory::getSecgCurves()->generator256k1();
         if (empty ($privateKey)) {
             $this->privateKey = $generator->createPrivateKey();
@@ -27,25 +38,42 @@ class Address {
         }
     }
 
-    public function getPrivateKey(): string {
-        return str_pad(gmp_strval($this->privateKey->getSecret(), 16), self::SIZE, '0', STR_PAD_LEFT);
+    public function setPrefix(string $prefix = '')
+    {
+        $this->prefix = $prefix;
     }
 
-    public function getPublicKey(): string {
+    public static function removePrefix(string $any, string $prefix)
+    {
+        if (substr($any, 0, strlen($prefix)) === $prefix) {
+            return substr($any, strlen($prefix));
+        }
+        return $any;
+    }
+
+    public static function addPrefix(string $any, string $prefix)
+    {
+        if (substr($any, 0, strlen($prefix)) !== $prefix) {
+            return $prefix . $any;
+        }
+        return $any;
+    }
+
+    public function getPrivateKey(): string
+    {
+        return static::addPrefix(str_pad(gmp_strval($this->privateKey->getSecret(), 16), self::SIZE, '0', STR_PAD_LEFT), $this->prefix);
+    }
+
+    public function get(): string
+    {
+        $hash = Keccak::hash(hex2bin(static::removePrefix($this->getPublicKey(),$this->prefix)), 256);
+        return static::addPrefix(substr($hash, -40), $this->prefix);
+    }
+
+    public function getPublicKey(): string
+    {
         $publicKey = $this->privateKey->getPublicKey();
         $publicKeySerializer = new DerPublicKeySerializer(EccFactory::getAdapter());
-        return substr($publicKeySerializer->getUncompressedKey($publicKey), 2);
+        return static::addPrefix(substr($publicKeySerializer->getUncompressedKey($publicKey), 2), $this->prefix);
     }
-
-    public function get(): string {
-        $hash = Keccak::hash(hex2bin($this->getPublicKey()), 256);
-        return substr($hash, -40);
-    }
-
-    /**
-     * @var PrivateKeyInterface
-     */
-    private $privateKey;
-
-    private const SIZE = 64;
 }
