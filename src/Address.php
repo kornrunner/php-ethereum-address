@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace kornrunner\Ethereum;
+namespace Drupal\blockchain_credentials\Address;
 
 use InvalidArgumentException;
 use kornrunner\Keccak;
@@ -66,7 +66,7 @@ class Address
 
     public function get(): string
     {
-        $hash = Keccak::hash(hex2bin(static::removePrefix($this->getPublicKey()), $this->prefix), 256);
+        $hash = Keccak::hash(hex2bin(static::removePrefix($this->getPublicKey(),$this->prefix)), 256);
         return static::addPrefix(substr($hash, -40), $this->prefix);
     }
 
