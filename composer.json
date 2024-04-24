@@ -3,7 +3,7 @@
     "description": "Pure PHP Ethereum Address Generator / Validator",
     "type": "library",
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.1",
         "kornrunner/keccak": "^1.0",
         "paragonie/ecc": "^2"
     },
