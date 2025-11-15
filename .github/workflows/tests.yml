@@ -17,18 +17,24 @@ jobs:
         with:
           fetch-depth: 1
 
-      - run: php${{ matrix.php-version }} -v
-      - run: php${{ matrix.php-version }} -m
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: gmp
+
+      - run: php -v
+      - run: php -m
       - run: composer -V
       - run: composer install --no-progress
-      - run: php${{ matrix.php-version }} vendor/bin/phpunit
+      - run: php vendor/bin/phpunit
 
   windows:
     name: Test on Windows
     defaults:
       run:
         shell: cmd
-    runs-on: windows-latest
+    runs-on: windows-2022
     strategy:
       fail-fast: false
       matrix:
@@ -39,7 +45,7 @@ jobs:
     steps:
       - name: Setup PHP
         id: setup-php
-        uses: cmb69/setup-php-sdk@v0.7
+        uses: php/setup-php-sdk@v0.11
         with:
           version: ${{matrix.php-version}}
           arch: ${{matrix.arch}}
@@ -63,11 +69,12 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-          coverage: none
+          extensions: gmp
+          coverage: pcov
 
       - run: composer install --no-progress
       - run: mkdir -p build/logs
-      - run: phpdbg -qrr vendor/bin/phpunit
+      - run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
       - run: wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
       - env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
