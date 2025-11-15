@@ -27,7 +27,7 @@ jobs:
       - run: php -m
       - run: composer -V
       - run: composer install --no-progress
-      - run: php vendor/bin/phpunit
+      - run: php vendor/bin/phpunit --no-coverage
 
   windows:
     name: Test on Windows
@@ -59,7 +59,7 @@ jobs:
       - run: php -m
       - run: composer -V
       - run: composer install --no-progress
-      - run: php vendor/bin/phpunit
+      - run: php vendor/bin/phpunit --no-coverage
 
   code_coverage:
     name: Code Coverage

@@ -8,4 +8,5 @@ composer.lock
 nbproject/
 build/
 .phpunit.result.cache
+.phpunit.cache/
 infection.log

@@ -3,6 +3,7 @@
 namespace kornrunner\Ethereum;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class AddressTest extends TestCase {
@@ -22,9 +23,7 @@ class AddressTest extends TestCase {
         $this->assertSame('677a637ec8f0bb2c8d33c6ace08054e521bff4b5', $address->get());
         $this->assertSame('5f65c9c32a4e38393b79ccf94913c1e5dbe7071d4264aad290d936c4bb2a7c0e3a71ebc855aaadd38f477320d54cd88e5133bfcf97bbf037252db4cd824ab902', $address->getPublicKey());
     }
-    /**
-     * @dataProvider privateKeyPading
-     */
+    #[DataProvider('privateKeyPading')]
     public function testPrivateKeyPadding($key, $public): void {
         $address = new Address($key);
         $this->assertSame($public, $address->get());
